@@ -9,11 +9,24 @@
 body {
   height: 100%;
   font-family: 'Outfit', sans-serif;
-  background-color: #f3e4c3 !important;
+  background-color:#fbf3e3; 
 }
 /* change back */
 .btn.btn-custom {
   background-color: red;
+}
+
+.box {
+  width: 300px;
+  height: 25px;
+  background-color:white; /* replace with desired color */
+  border: 1px solid #6ba292; /* add border styles as needed */
+  border-radius: 10px;
+  font-family: 'Outfit', sans-serif;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-right: 50px;
+  /* add other styles as needed */
 }
 
 /* Navbar */
