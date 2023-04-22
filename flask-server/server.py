@@ -126,14 +126,61 @@ def send_data():
         model = whisper.load_model("base")
         result = model.transcribe(uploaded_file.filename, fp16=False)
         text = result['text']
-    files = os.listdir(app.config['UPLOAD_PATH'])
-    # this is where we will send the text to the model
+    files = os.listdir(app.config['UPLOAD_PATH'])# this is where we will send the text to the model
     #test = text_summarizer(text) #commenting it out to use cohere 
     response = co.summarize(
         text=text,
         )
     print(response)
-    
+    textUtil = response
+
+ #recall question example 
+numQs = 5
+qType = "recall"
+response = co.generate(
+ model='command-xlarge-nightly',
+ prompt='generate a list of' + str(numQs)+' ' + qType +' questions and answers from this paragraph: ' +  textUtil + 'Denote each question with % and a number. Denote each answer with *A and the number, followed by the answer to the question.',
+ max_tokens=300,
+ temperature=0.9,
+ k=0,
+ stop_sequences=[],
+ return_likelihoods='NONE')
+#print('Prediction: {}'.format(response.generations[0].text))
+generatedQ = response.generations[0].text
+print(generatedQ)
+
+
+#normal type question
+response = co.generate(
+ model='command-xlarge-nightly',
+ prompt='generate a list of' + str(numQs)+' ' + qType +' questions and answers from this paragraph: ' +textUtil + 'Denote each question with % and a number. Denote each answer with *A and the number, followed by the answer to the question.',
+ max_tokens=300,
+ temperature=0.9,
+ k=0,
+ stop_sequences=[],
+ return_likelihoods='NONE')
+#print('Prediction: {}'.format(response.generations[0].text))
+generatedQ = response.generations[0].text
+print(generatedQ)
+
+#question extraction
+
+def questionAnsList (generatedQ, num):
+ generatedQClean = generatedQ.replace("\n", " ")
+ questions = generatedQClean.split("%")
+ return(questions[num])
+
+questionAnsList(generatedQ, 2)
+
+def extractQorA(num, qOrA):
+ questOrAns = questionAnsList(generatedQ, num).split("*")
+ return questOrAns[qOrA]
+quest = 0
+ans = 1
+print(extractQorA(2, ans))
+
+#question extraction
+ 
 
     #return "received" #using print cause thats what the cohere api uses in its docs
 

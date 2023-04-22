@@ -6,6 +6,7 @@ stemmer = PorterStemmer()
 from nltk.corpus import stopwords
 import numpy as np
 import re
+import cohere
 
 
 def tokenize(sentence):
@@ -34,6 +35,9 @@ def word_frequency(tokens):
                 word_frequencies[word] = 1
             else:
                 word_frequencies[word] += 1
+
+
+                
 
 def text_summarizer(text):
     tokenized = tokenize(text)
