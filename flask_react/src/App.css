@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100%;
+  font-family: 'Outfit', sans-serif;
+  background-color: #f3e4c3 !important;
+}
+
+.btn.btn-custom {
+  background-color: #35ceb2;
+}
+
+/* Navbar */
+
+.navbar-custom {
+  background-color: #4b766a;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav .nav-link {
+  color: #f3e4c3;
+}
+
+/* Landing page */
+
+.landing-page {
+  display: flex;
+}
+
+.landing-page-left-box {
+  width: 40%;
+}
+
+.landing-page-title {
+  font-family: 'Yeseva One', cursive;
+}
+
+/* Home Page */
+
+.Home {
+  display: flex;
+}
+
+.Home-left-box {
+  width: 50%;
+}
+
+.Home-right-box {
+  width: 50%;
+}
+
+.log-reg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  border: 1px solid black;
+}
+
+.log-reg-container-border {
+  border: 1px solid black;
+
+  padding: 50px 30px;
+}
+
+/* Input files */
+.input-files-container {
+  width: 60% !important;
+  margin-bottom: 25px;
+}
