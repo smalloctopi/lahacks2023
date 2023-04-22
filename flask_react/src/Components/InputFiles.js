@@ -6,8 +6,6 @@ import axios from 'axios';
 function InputFiles({ sendData }) {
   const pdfRef = useRef(null);
   // const audioRef = useRef(null);
-  const [text, setText] = useState('');
-
   // let formData = new FormData();
 
   const [formData, setFormData] = useState(new FormData());
@@ -23,7 +21,7 @@ function InputFiles({ sendData }) {
       .post('http://localhost:5000/data', formData)
       .then((res) => {
         // setText(res.data);
-        sendData('this is a test');
+        sendData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +71,6 @@ function InputFiles({ sendData }) {
           Submit Audio
         </Button> */}
       </Form>
-      <div>{text}</div>
     </div>
   );
 }

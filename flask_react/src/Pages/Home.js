@@ -22,14 +22,6 @@ function Home() {
     setInput(false);
   };
 
-  const sendData = () => {
-    setData(data);
-  };
-
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
   return (
     <div className="Home">
       <div className="Home-left-box">
@@ -64,7 +56,7 @@ function Home() {
             questions may include previous midterms, finals, quizzes, or any
             other test prompts that your professor may have given you.
           </p>
-          <InputFiles sendData={sendData} />
+          <InputFiles sendData={(d) => setData(d)} />
           {data}
         </div>
       </div>
