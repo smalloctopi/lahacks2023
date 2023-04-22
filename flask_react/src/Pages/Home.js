@@ -32,7 +32,7 @@ function Home() {
             accurate and relevant your Beeline will be.
           </p>
         </div>
-        <div className="Home-textbook">
+        {/* <div className="Home-textbook">
           <h2 className="Home-textbook-heading">Textbook(s)</h2>
           <p className="Home-textbook-paragraph">
             Search using the DOI or ISBN numbers of the textbook(s) your
@@ -45,7 +45,7 @@ function Home() {
             onChange={handleChange}
             value={searchInput}
           />
-        </div>
+        </div> */}
         <div className="Home-practice-questions">
           <h2 className="Home-practice-heading">Practice Questions</h2>
           <p className="Home-practicing-paragraph">

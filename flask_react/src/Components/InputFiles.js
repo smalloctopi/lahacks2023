@@ -1,11 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import axios from 'axios';
 
 function InputFiles() {
   const pdfRef = useRef(null);
-  const audioRef = useRef(null);
+  // const audioRef = useRef(null);
+  const [text, setText] = useState('');
 
   let formData = new FormData();
   const onFileChange = (e) => {
@@ -18,12 +19,23 @@ function InputFiles() {
     axios
       .post('http://localhost:5000/data', formData)
       .then((res) => {
-        console.log(res);
+        setText(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  // const submitAudioFilesData = () => {
+  //   axios
+  //     .post('http://localhost:5000/data', formData)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   return (
     <div className="input-files-container">
@@ -41,8 +53,9 @@ function InputFiles() {
         <Button variant="custom" type="button" onClick={submitFilesData}>
           Submit PDF
         </Button>
-        <hr></hr>
-        <Form.Group className="mb-3" controlId="audioFile">
+
+        {/* <hr></hr> */}
+        {/* <Form.Group className="mb-3" controlId="audioFile">
           <Form.Label>Lecture Slides Audio</Form.Label>
           <Form.Control
             type="file"
@@ -54,8 +67,9 @@ function InputFiles() {
         </Form.Group>
         <Button variant="custom" type="button" onClick={submitFilesData}>
           Submit Audio
-        </Button>
+        </Button> */}
       </Form>
+      <div>{text}</div>
     </div>
   );
 }
