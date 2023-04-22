@@ -11,9 +11,9 @@ body {
   font-family: 'Outfit', sans-serif;
   background-color: #f3e4c3 !important;
 }
-
+/* change back */
 .btn.btn-custom {
-  background-color: #35ceb2;
+  background-color: red;
 }
 
 /* Navbar */
