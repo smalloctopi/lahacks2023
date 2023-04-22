@@ -10,6 +10,8 @@ import jwt
 import os
 from flask_bcrypt import Bcrypt
 from pdfminer.high_level import extract_text
+import cohere
+co = cohere.Client('PKwpHpAfrm6yzOJc9StFMkWrYj1NUvfTrVtLxznG')
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 SECRET = os.getenv("SECRET")
@@ -118,23 +120,28 @@ def send_data():
     if uploaded_file.filename != '':
     #     uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
         uploaded_file.save(uploaded_file.filename)
-
     if extension == 'pdf':
         text = extract_text(uploaded_file.filename)
     elif extension == 'mp3' or extension == 'wav' or extension == 'mp4':
         model = whisper.load_model("base")
         result = model.transcribe(uploaded_file.filename, fp16=False)
         text = result['text']
-
-    # files = os.listdir(app.config['UPLOAD_PATH'])
-
-
+    files = os.listdir(app.config['UPLOAD_PATH'])
     # this is where we will send the text to the model
-    test = text_summarizer(text)
+    #test = text_summarizer(text) #commenting it out to use cohere 
+    response = co.summarize(
+        text=text,
+        )
+    print(response)
     
 
-    return "received"
+    #return "received" #using print cause thats what the cohere api uses in its docs
 
 
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port=5000, debug=True)
+
+
+
+
+
