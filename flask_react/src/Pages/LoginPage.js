@@ -21,7 +21,7 @@ const LoginPage = () => {
         position: 'bottom-right',
       });
     }
-  };s
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
