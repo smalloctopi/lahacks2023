@@ -53,7 +53,7 @@ function InputFiles({ sendData }) {
           />
         </Form.Group>
         <Button variant="custom" type="button" onClick={submitFilesData}>
-          Submit PDF
+          Start Generating
         </Button>
 
         {/* <hr></hr> */}

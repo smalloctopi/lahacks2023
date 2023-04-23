@@ -22,6 +22,12 @@ function Home() {
     setInput(false);
   };
 
+  useEffect(() => {
+    if (data !== 'test') {
+      setInput(false);
+    }
+  }, [data]);
+
   return (
     <div className="Home">
       <div className="Home-left-box">
@@ -57,12 +63,11 @@ function Home() {
             other test prompts that your professor may have given you.
           </p>
           <InputFiles sendData={(d) => setData(d)} />
-          {data}
         </div>
       </div>
 
       <div className="Home-right-box">
-        {input ? <Filler handleClick={handleClick} /> : <Results />}
+        {input ? <Filler /> : <Results data={data} />}
       </div>
     </div>
   );

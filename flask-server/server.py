@@ -135,6 +135,22 @@ def send_data():
         )
     # print(response.summary)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # UNCOMMENT FOR BETTER PERFORMANCE!
     completion = openai.Completion.create(
     model="text-davinci-003", 
@@ -142,15 +158,24 @@ def send_data():
     max_tokens=2049,
     temperature=0,
     )
-    # print(text)
-    # print(completion.choices[0].text)
-
+    print(response)
     return(completion.choices[0].text)
     
 
     #return "received" #using print cause thats what the cohere api uses in its docs
 
+#########################################
 
+
+
+
+
+
+
+
+
+
+######################################
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port=5000, debug=True)
 

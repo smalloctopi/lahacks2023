@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-function Filler({ handleClick }) {
+function Filler() {
   // const handleClick = (e) => {
   //   console.log('clicked');
   // };
@@ -963,9 +963,6 @@ function Filler({ handleClick }) {
         Once you upload your materials, Beeline will generate a preview of your
         study guide here
       </p>
-      <Button variant="custom" onClick={handleClick}>
-        Start Generating
-      </Button>
     </div>
   );
 }
