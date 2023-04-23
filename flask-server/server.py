@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, session, redirect
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_session import Session
 from models.models import db, User
 from utils import generate_prompt, tokenize, text_summarizer, stem, bag_of_words
@@ -109,12 +109,13 @@ def login():
 
 import re
 # request.form is another method to access request body
+@cross_origin()
 @app.post('/data')
 def send_data():
     # transcribe data
     uploaded_file = request.files['file']
     extension = uploaded_file.filename.split('.')[-1]
-
+    print(extension) # DELETE!
     if uploaded_file.filename != '':
     #     uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
         uploaded_file.save(uploaded_file.filename)
@@ -129,6 +130,31 @@ def send_data():
     response = co.summarize(
         text=text,
         )
+    # print(response.summary)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # UNCOMMENT FOR BETTER PERFORMANCE!
+    completion = openai.Completion.create(
+    model="text-davinci-003", 
+    prompt=generate_prompt(response.summary),
+    max_tokens=2049,
+    temperature=0,
+    )
     print(response)
     textUtil = response
 
@@ -182,7 +208,18 @@ print(extractQorA(2, ans))
 
     #return "received" #using print cause thats what the cohere api uses in its docs
 
+#########################################
 
+
+
+
+
+
+
+
+
+
+######################################
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port=5000, debug=True)
 
