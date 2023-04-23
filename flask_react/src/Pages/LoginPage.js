@@ -47,6 +47,7 @@ const LoginPage = () => {
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
+             className="box" 
               type="email"
               placeholder="Enter email"
               required={true}
@@ -60,6 +61,7 @@ const LoginPage = () => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
+            className="box1"
               type="password"
               placeholder="Password"
               required={true}

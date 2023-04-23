@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, session, redirect
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_session import Session
 from models.models import db, User
 from utils import generate_prompt, tokenize, text_summarizer, stem, bag_of_words
@@ -10,6 +10,8 @@ import jwt
 import os
 from flask_bcrypt import Bcrypt
 from pdfminer.high_level import extract_text
+import cohere
+co = cohere.Client('PKwpHpAfrm6yzOJc9StFMkWrYj1NUvfTrVtLxznG')
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 SECRET = os.getenv("SECRET")
@@ -109,32 +111,50 @@ def login():
 
 import re
 # request.form is another method to access request body
+@cross_origin()
 @app.post('/data')
 def send_data():
     # transcribe data
     uploaded_file = request.files['file']
     extension = uploaded_file.filename.split('.')[-1]
-
+    print(extension) # DELETE!
     if uploaded_file.filename != '':
     #     uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], uploaded_file.filename))
         uploaded_file.save(uploaded_file.filename)
-
     if extension == 'pdf':
         text = extract_text(uploaded_file.filename)
     elif extension == 'mp3' or extension == 'wav' or extension == 'mp4':
         model = whisper.load_model("base")
         result = model.transcribe(uploaded_file.filename, fp16=False)
         text = result['text']
-
     # files = os.listdir(app.config['UPLOAD_PATH'])
-
-
     # this is where we will send the text to the model
-    test = text_summarizer(text)
+    #test = text_summarizer(text) #commenting it out to use cohere 
+    response = co.summarize(
+        text=text,
+        )
+    # print(response.summary)
+
+    # UNCOMMENT FOR BETTER PERFORMANCE!
+    completion = openai.Completion.create(
+    model="text-davinci-003", 
+    prompt=generate_prompt(response.summary),
+    max_tokens=2049,
+    temperature=0,
+    )
+    # print(text)
+    # print(completion.choices[0].text)
+
+    return(completion.choices[0].text)
     
 
-    return "received"
+    #return "received" #using print cause thats what the cohere api uses in its docs
 
 
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port=5000, debug=True)
+
+
+
+
+
