@@ -167,31 +167,55 @@ def moreAccuracy():
     return( completion.choices[0].text)
 
 from cohere.responses.classify import Example
+# import json
 @app.post('/checkAnswers')
 def checkAnswers():
     userAns = request.json['user']
     corrAns = request.json['corrAns']
 
-    # incorrectAns = co.generate(
-    #     text = 
+    if corrAns == "":
+        corrAns = "This is a some answer"
+
+    corrAnsV2 = co.generate(
+        model='xlarge',
+        prompt = 'write me a variation to this text: ' + corrAns,
+
+    )
+
+    # incorrAns = co.generate(
+    #     model='xlarge',
+    #     prompt = 'write me an opposite variation to this text: ' + corrAns,
+    #     return_likelihoods='NONE'
     # )
     
+    # print(incorrAns.generations[0].text)
+    # corrAnsStr = json.dumps(corrAns.generations[0].text)
 
+    corrAnsV2Empty = corrAnsV2.generations[0].text
+    if corrAnsV2Empty == "":
+        corrAnsV2Empty = "This is another answer"
+
+    if userAns == "":
+        userAns = "This is a some user answer to hold until user answers"
     # classify
-    # response = co.classify (
-    #     model = 'large',
-    #     inputs = [userAns],
-    #     examples = [
-    #         Example(corrAns, 'correct'),
-    #         Example("corrAns2", 'correct'),
-    #         Example("userAns", 'incorrect'),
-    #         Example('whats up?', 'incorrect')
-    #     ]
-    # ) 
-    print("Pushed from servers")
-    # print(response.classifications) 
+    response = co.classify (
+        model = 'large',
+        inputs = [userAns],
+        examples = [
+            Example(corrAns, 'correct'),
+            Example(corrAnsV2Empty, 'correct'),
+            Example("THis is incorrect", 'incorrect'),
+            Example('whats up?', 'incorrect'),
+            Example("The capital of France is Berlin.", 'incorrect'),
+            Example("World War II started in 1965.", 'incorrect'),
+            Example("The author of the Harry Potter series is J.R.R. Tolkien.", 'incorrect'),
+            Example("The boiling point of water is -10 degrees Celsius.", 'incorrect'),
+
+        ]
+    ) 
     # print(corrAns)
-    return("response")
+    # print(type(response.classifications[0].labels['correct'].confidence))
+    return(str(response.classifications[0].labels['correct'].confidence))
 
 #########################################
 

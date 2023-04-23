@@ -58,5 +58,7 @@ def text_summarizer(text):
 #############################################################################
 
 def generate_prompt(message):
-    return """Generate 10 practice questions and answers on the subject {}""".format(message)
+    return """Generate 1 practice questions and answers on the subject {}. 
+    Make sure the questions starts with a number followed by a period. 
+    Make sure the answer starts with A followed by a colon.""".format(message)
 

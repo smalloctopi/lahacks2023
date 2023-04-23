@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Useranswers from './Useranswers';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import Confidence from './Confidence';
 
 function Answers({ answers }) {
   const [showAns, setShowAns] = useState(false);
   const [userAnswer, setUserAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState(answers);
+
+  const [confidence, setConfidence] = useState('');
 
   const handleSwitch = () => {
     setShowAns(!showAns);
@@ -25,7 +28,13 @@ function Answers({ answers }) {
       })
       .then((res) => {
         console.log(res.data);
-        console.log('check answer success');
+        setConfidence(parseFloat(res.data.confidence));
+        if (parseFloat(res.data) > 0.5) {
+          setConfidence('Correct');
+        } else {
+          setConfidence('Incorrect');
+        }
+        // console.log(confidence);
         // console.log('success');
       })
       .catch((err) => {
@@ -46,6 +55,7 @@ function Answers({ answers }) {
       {showAns && <div className="answers">{answers}</div>}
 
       <Useranswers sendUserData={(d) => setUserAnswer(d)} />
+      <Confidence confidence={confidence} />
     </>
   );
 }

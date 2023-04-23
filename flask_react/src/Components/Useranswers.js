@@ -11,7 +11,6 @@ function Useranswers({ sendUserData }) {
 
   const checkAnswer = (e) => {
     e.preventDefault();
-    console.log('submit btn from useranswer clicked');
     sendUserData(userAns);
   };
 
