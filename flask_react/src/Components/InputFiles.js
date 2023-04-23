@@ -3,12 +3,15 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import axios from 'axios';
 
-function InputFiles() {
+function InputFiles({ sendData }) {
   const pdfRef = useRef(null);
   // const audioRef = useRef(null);
   const [text, setText] = useState('');
 
-  let formData = new FormData();
+  // let formData = new FormData();
+
+  const [formData, setFormData] = useState(new FormData());
+
   const onFileChange = (e) => {
     if (e.target && e.target.files[0]) {
       formData.append('file', e.target.files[0]);
@@ -19,7 +22,8 @@ function InputFiles() {
     axios
       .post('http://localhost:5000/data', formData)
       .then((res) => {
-        setText(res.data);
+        // setText(res.data);
+        sendData('this is a test');
       })
       .catch((err) => {
         console.log(err);

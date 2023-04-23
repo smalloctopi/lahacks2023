@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import InputFiles from '../Components/InputFiles';
 import Filler from '../Components/Filler';
 import Results from '../Components/Results';
@@ -7,6 +7,8 @@ import { useState } from 'react';
 // work onthis later
 function Home() {
   const [input, setInput] = useState(true);
+
+  const [data, setData] = useState('test'); // this is a test
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,6 +21,14 @@ function Home() {
   const handleClick = () => {
     setInput(false);
   };
+
+  const sendData = () => {
+    setData(data);
+  };
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
 
   return (
     <div className="Home">
@@ -54,7 +64,8 @@ function Home() {
             questions may include previous midterms, finals, quizzes, or any
             other test prompts that your professor may have given you.
           </p>
-          <InputFiles />
+          <InputFiles sendData={sendData} />
+          {data}
         </div>
       </div>
 

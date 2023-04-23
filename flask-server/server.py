@@ -144,6 +144,7 @@ def send_data():
     )
     # print(text)
     # print(completion.choices[0].text)
+
     return(completion.choices[0].text)
     
 
