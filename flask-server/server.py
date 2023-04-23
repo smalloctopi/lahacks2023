@@ -8,7 +8,6 @@ import openai
 import whisper
 import jwt
 import os
-from flask_bcrypt import Bcrypt
 from pdfminer.high_level import extract_text
 import cohere
 co = cohere.Client('PKwpHpAfrm6yzOJc9StFMkWrYj1NUvfTrVtLxznG')
@@ -17,7 +16,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 SECRET = os.getenv("SECRET")
 
 app = Flask(__name__)
-bcrypt = Bcrypt(app)
 CORS(app, supports_credentials=True)
 
 app.config.from_object(ApplicationConfig)
@@ -61,28 +59,28 @@ def generate_exams():
 
 # engine = create_engine("sqlite:///hackathon.db", echo=True)
 
-@app.post('/register')
-def register():
-    email = request.json["email"]
-    password = request.json["password"]
-    firstName = request.json["firstName"]
-    lastName = request.json["lastName"]
+# @app.post('/register')
+# def register():
+#     email = request.json["email"]
+#     password = request.json["password"]
+#     firstName = request.json["firstName"]
+#     lastName = request.json["lastName"]
 
 
-    user_exists = User.query.filter_by(email=email).first() is not None
+#     user_exists = User.query.filter_by(email=email).first() is not None
 
-    if user_exists:
-        return jsonify({"error": "User already exists"}), 409
+#     if user_exists:
+#         return jsonify({"error": "User already exists"}), 409
     
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+#     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     
-    new_user = User(email=email, firstName=firstName, lastName=lastName, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
+#     new_user = User(email=email, firstName=firstName, lastName=lastName, password=hashed_password)
+#     db.session.add(new_user)
+#     db.session.commit()
     
-    payLoad = {"id": new_user.id}
-    token = jwt.encode(payLoad, SECRET, algorithm="HS256")
-    return token
+#     payLoad = {"id": new_user.id}
+#     token = jwt.encode(payLoad, SECRET, algorithm="HS256")
+#     return token
 
 
 
@@ -139,7 +137,7 @@ numQs = 5
 qType = "recall"
 response = co.generate(
  model='command-xlarge-nightly',
- prompt='generate a list of' + str(numQs)+' ' + qType +' questions and answers from this paragraph: ' +  textUtil + 'Denote each question with % and a number. Denote each answer with *A and the number, followed by the answer to the question.',
+ prompt='generate a list of' + str(numQs)+' ' + qType +' questions and answers from this paragraph: ' +  "textUtil" + 'Denote each question with % and a number. Denote each answer with *A and the number, followed by the answer to the question.',
  max_tokens=300,
  temperature=0.9,
  k=0,
@@ -153,7 +151,7 @@ print(generatedQ)
 #normal type question
 response = co.generate(
  model='command-xlarge-nightly',
- prompt='generate a list of' + str(numQs)+' ' + qType +' questions and answers from this paragraph: ' +textUtil + 'Denote each question with % and a number. Denote each answer with *A and the number, followed by the answer to the question.',
+ prompt='generate a list of' + str(numQs)+' ' + qType +' questions and answers from this paragraph: ' + "textUtil" + 'Denote each question with % and a number. Denote each answer with *A and the number, followed by the answer to the question.',
  max_tokens=300,
  temperature=0.9,
  k=0,

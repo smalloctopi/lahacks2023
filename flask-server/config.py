@@ -1,10 +1,10 @@
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 import redis
 
 basedir = os.path.abspath(os.path.dirname(__file__)) + '/instance'
 
-load_dotenv()
+# load_dotenv()
 
 class ApplicationConfig:
     SECRET_KEY = os.environ["SECRET"]
