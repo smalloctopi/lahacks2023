@@ -136,33 +136,62 @@ def send_data():
     # print(response.summary)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     # UNCOMMENT FOR BETTER PERFORMANCE!
     completion = openai.Completion.create(
-    model="text-davinci-003", 
-    prompt=generate_prompt(response.summary),
-    max_tokens=2049,
-    temperature=0,
+        model="text-davinci-003", 
+        prompt=generate_prompt(response.summary),
+        max_tokens=2049,
+        temperature=0,
     )
     print(response)
     return(completion.choices[0].text)
     
 
     #return "received" #using print cause thats what the cohere api uses in its docs
+
+@app.post('/moreAccuracy')
+def moreAccuracy():
+    data = request.json['data']
+    response = co.summarize(
+        text=data
+    )
+
+    completion = openai.Completion.create(
+        model="text-davinci-003", 
+        prompt=generate_prompt(response.summary),
+        max_tokens=2049,
+        temperature=0,
+    )
+
+    
+    return( completion.choices[0].text)
+
+from cohere.responses.classify import Example
+@app.post('/checkAnswers')
+def checkAnswers():
+    userAns = request.json['user']
+    corrAns = request.json['corrAns']
+
+    # incorrectAns = co.generate(
+    #     text = 
+    # )
+    
+
+    # classify
+    # response = co.classify (
+    #     model = 'large',
+    #     inputs = [userAns],
+    #     examples = [
+    #         Example(corrAns, 'correct'),
+    #         Example("corrAns2", 'correct'),
+    #         Example("userAns", 'incorrect'),
+    #         Example('whats up?', 'incorrect')
+    #     ]
+    # ) 
+    print("Pushed from servers")
+    # print(response.classifications) 
+    # print(corrAns)
+    return("response")
 
 #########################################
 

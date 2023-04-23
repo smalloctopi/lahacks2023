@@ -8,6 +8,7 @@ import { useState } from 'react';
 function Home() {
   const [input, setInput] = useState(true);
 
+  // const [data, setData] = useState('test'); // this is a test
   const [data, setData] = useState('test'); // this is a test
 
   const handleChange = (e) => {
@@ -24,7 +25,7 @@ function Home() {
 
   useEffect(() => {
     if (data !== 'test') {
-      setInput(false);
+      setInput(!input);
     }
   }, [data]);
 
@@ -62,7 +63,7 @@ function Home() {
             questions may include previous midterms, finals, quizzes, or any
             other test prompts that your professor may have given you.
           </p>
-          <InputFiles sendData={(d) => setData(d)} />
+          <InputFiles sendData={(d) => setData(d)} setInput={setInput} />
         </div>
       </div>
 

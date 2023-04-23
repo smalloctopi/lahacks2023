@@ -3,12 +3,13 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import axios from 'axios';
 
-function InputFiles({ sendData }) {
+function InputFiles({ sendData, setInput }) {
   const pdfRef = useRef(null);
   // const audioRef = useRef(null);
   // let formData = new FormData();
 
   const [formData, setFormData] = useState(new FormData());
+  const [text, setText] = useState('');
 
   const onFileChange = (e) => {
     if (e.target && e.target.files[0]) {
@@ -20,7 +21,7 @@ function InputFiles({ sendData }) {
     axios
       .post('http://localhost:5000/data', formData)
       .then((res) => {
-        // setText(res.data);
+        setText(res.data);
         sendData(res.data);
       })
       .catch((err) => {
@@ -28,16 +29,18 @@ function InputFiles({ sendData }) {
       });
   };
 
-  // const submitAudioFilesData = () => {
-  //   axios
-  //     .post('http://localhost:5000/data', formData)
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const moreAccuracy = () => {
+    setInput(true);
+    axios
+      .post('http://localhost:5000/moreAccuracy', { data: text })
+      .then((res) => {
+        setText(res.data);
+        sendData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="input-files-container">
@@ -54,22 +57,10 @@ function InputFiles({ sendData }) {
         </Form.Group>
         <Button variant="custom" type="button" onClick={submitFilesData}>
           Start Generating
+        </Button>{' '}
+        <Button variant="custom" type="button" onClick={moreAccuracy}>
+          More Accuracy
         </Button>
-
-        {/* <hr></hr> */}
-        {/* <Form.Group className="mb-3" controlId="audioFile">
-          <Form.Label>Lecture Slides Audio</Form.Label>
-          <Form.Control
-            type="file"
-            placeholder="Enter lecture slides in audio form (mp3, mp4, wav)"
-            ref={audioRef}
-            accept=".mp3, .mp4, .wav"
-            onChange={onFileChange}
-          />
-        </Form.Group>
-        <Button variant="custom" type="button" onClick={submitFilesData}>
-          Submit Audio
-        </Button> */}
       </Form>
     </div>
   );
