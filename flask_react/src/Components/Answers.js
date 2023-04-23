@@ -3,6 +3,7 @@ import Useranswers from './Useranswers';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Confidence from './Confidence';
+import Spinner from 'react-bootstrap/Spinner';
 
 function Answers({ answers }) {
   const [showAns, setShowAns] = useState(false);
@@ -10,6 +11,8 @@ function Answers({ answers }) {
   const [correctAnswer, setCorrectAnswer] = useState(answers);
 
   const [confidence, setConfidence] = useState('');
+
+  const [load, setLoad] = useState(false);
 
   const handleSwitch = () => {
     setShowAns(!showAns);
@@ -21,6 +24,7 @@ function Answers({ answers }) {
   }, [userAnswer]);
 
   const fetchAnswers = () => {
+    setLoad(true);
     axios
       .post('http://localhost:5000/checkAnswers', {
         user: userAnswer,
@@ -28,6 +32,7 @@ function Answers({ answers }) {
       })
       .then((res) => {
         console.log(res.data);
+        setLoad(false);
         setConfidence(parseFloat(res.data.confidence));
         if (parseFloat(res.data) > 0.5) {
           setConfidence('Correct');
@@ -55,6 +60,7 @@ function Answers({ answers }) {
       {showAns && <div className="answers">{answers}</div>}
 
       <Useranswers sendUserData={(d) => setUserAnswer(d)} />
+      {load ? <Spinner animation="border" variant="success" /> : null}
       <Confidence confidence={confidence} />
     </>
   );

@@ -94,3 +94,9 @@ body {
   height: 30px;
   width: 100%;
 } */
+
+/* Alert */
+#custom-alert {
+  margin-top: 15px;
+  text-align: center;
+}

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import axios from 'axios';
+import Spinner from 'react-bootstrap/Spinner';
 
 function InputFiles({ sendData, setInput }) {
   const pdfRef = useRef(null);
@@ -11,6 +12,8 @@ function InputFiles({ sendData, setInput }) {
   const [formData, setFormData] = useState(new FormData());
   const [text, setText] = useState('');
 
+  const [load, setLoad] = useState(false);
+
   const onFileChange = (e) => {
     if (e.target && e.target.files[0]) {
       formData.append('file', e.target.files[0]);
@@ -18,9 +21,11 @@ function InputFiles({ sendData, setInput }) {
   };
 
   const submitFilesData = () => {
+    setLoad(true);
     axios
       .post('http://localhost:5000/data', formData)
       .then((res) => {
+        setLoad(false);
         setText(res.data);
         sendData(res.data);
       })
@@ -62,6 +67,7 @@ function InputFiles({ sendData, setInput }) {
           More Accuracy
         </Button>
       </Form>
+      {load ? <Spinner animation="border" variant="success" /> : null}
     </div>
   );
 }
